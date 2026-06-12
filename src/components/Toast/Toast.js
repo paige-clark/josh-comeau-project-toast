@@ -1,4 +1,7 @@
 import React from "react";
+
+import { ToastContext } from "../ToastProvider";
+
 import {
   AlertOctagon,
   AlertTriangle,
@@ -18,7 +21,9 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ variant = "notice", handleDismiss, children }) {
+function Toast({ variant = "notice", id, children }) {
+  const { removeToast } = React.useContext(ToastContext);
+
   // Polymorph!
   const Icon = ICONS_BY_VARIANT[variant];
 
@@ -28,7 +33,7 @@ function Toast({ variant = "notice", handleDismiss, children }) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={handleDismiss}>
+      <button className={styles.closeButton} onClick={() => removeToast(id)}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
